@@ -10,6 +10,7 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.example.laporan.keuangan.entity.Transaksi;
@@ -41,12 +42,23 @@ public class TransaksiController {
 	
 	@GetMapping("list")
 	public ResponseTemplate list() {
-		
-		//List<Transaksi> transaksis = transaksiService.findAll();		
+				
 		List<TransaksiWrapper> transaksis = transaksiService.findAllWithWrapper();
 		ResponseTemplate response = new ResponseTemplate();
 		response.setStatus(1);
-		response.setMessage("success get the annotation");
+		response.setMessage("success get the transaksi");
+		response.setData(transaksis);
+		
+		return response;
+	}
+	
+	@GetMapping("list/filter")
+	public ResponseTemplate listWithFilter(@RequestParam("start") String start, @RequestParam("end") String end) {
+	
+		List<TransaksiWrapper> transaksis = transaksiService.findByStartAndEndDate(start, end);
+		ResponseTemplate response = new ResponseTemplate();
+		response.setStatus(1);
+		response.setMessage("success get the transaksi");
 		response.setData(transaksis);
 		
 		return response;

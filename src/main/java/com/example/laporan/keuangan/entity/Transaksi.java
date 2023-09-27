@@ -60,6 +60,25 @@ import lombok.NoArgsConstructor;
 		resultClass = TransaksiWrapper.class
 )
 
+@NamedNativeQuery(
+		name = "Transaksi.findByStartAndEndDateWithWrapper", 
+		query = "select \r\n"
+				+ "	t.id_transaksi, t.nama, t.cash_in, t.cash_out, t.id_akun, t.id_budget, t.status, t.status_info, t.creation_date, a.tipe_nama, b.nama budget_nama  \r\n"
+				+ "from \r\n"
+				+ "	transaksi t \r\n"
+				+ "left join \r\n"
+				+ "	akun a \r\n"
+				+ "on t.id_akun = a.id_akun \r\n"
+				+ "left join \r\n"
+				+ "	budget b \r\n"
+				+ "on t.id_budget = b.id_budget \r\n"
+				+ "where \r\n"
+				+ "	t.creation_date >= :start AND t.creation_date <= :end \r\n"
+				+ "order by t.creation_date",
+		resultSetMapping = "transaksiWrapperMapping",
+		resultClass = TransaksiWrapper.class
+)
+
 
 @Entity
 @Table(name = "transaksi")

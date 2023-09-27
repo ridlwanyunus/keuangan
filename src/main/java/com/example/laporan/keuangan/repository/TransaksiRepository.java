@@ -18,4 +18,8 @@ public interface TransaksiRepository extends JpaRepository<Transaksi, Integer> {
 	
 	@Query(nativeQuery = true)
 	public List<TransaksiWrapper> findAllWithWrapper();
+	
+	@Query(nativeQuery = true)
+	public List<TransaksiWrapper> findByStartAndEndDateWithWrapper(@Param("start") String start, @Param("end") String end);
+	
 }
