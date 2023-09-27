@@ -34,16 +34,16 @@ var akun = function() {
 							"data": null,
 							render: function(data, type, full, meta){
 								var tipeNama = '';
-								if(full.tipeAkun == 0){
+								if(full.tipeAkun == 1){
 									tipeNama = '<span class="kt-badge kt-badge--inline kt-badge--danger">'+full.tipeNama+'</span>';
 								} else 
-								if(full.tipeAkun == 1){
+								if(full.tipeAkun == 2){
 									tipeNama = '<span class="kt-badge kt-badge--inline kt-badge--success">'+full.tipeNama+'</span>';
 								} else 
-								if(full.tipeAkun == 2){
+								if(full.tipeAkun == 3){
 									tipeNama = '<span class="kt-badge kt-badge--inline kt-badge--warning">'+full.tipeNama+'</span>';
 								} else 
-								if(full.tipeAkun == 3){
+								if(full.tipeAkun == 4){
 									tipeNama = '<span class="kt-badge kt-badge--inline kt-badge--primary">'+full.tipeNama+'</span>';
 								}
 								return tipeNama;
