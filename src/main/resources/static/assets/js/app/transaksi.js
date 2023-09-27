@@ -40,7 +40,23 @@ var transaksi = function() {
 							"data": "cashOut"
 						},
 						{
-							"data": "tipeNama"
+							"data": "tipeNama",
+							render: function(data, type, full, meta){
+								var tipeNama = '';
+								if(full.idAkun == 1){
+									tipeNama = '<span class="kt-badge kt-badge--inline kt-badge--danger">'+full.tipeNama+'</span>';
+								} else 
+								if(full.idAkun == 2){
+									tipeNama = '<span class="kt-badge kt-badge--inline kt-badge--success">'+full.tipeNama+'</span>';
+								} else 
+								if(full.idAkun == 3){
+									tipeNama = '<span class="kt-badge kt-badge--inline kt-badge--warning">'+full.tipeNama+'</span>';
+								} else 
+								if(full.idAkun == 4){
+									tipeNama = '<span class="kt-badge kt-badge--inline kt-badge--primary">'+full.tipeNama+'</span>';
+								}
+								return tipeNama;
+							}
 						},
 						{
 							"data": "budgetNama"
