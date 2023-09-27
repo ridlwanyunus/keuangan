@@ -283,6 +283,24 @@ var transaksi = function() {
             format: 'dd-mm-yyyy',
             autoclose: true
         }).datepicker('setDate', new Date());
+        
+        $('#creationDateStart').datepicker({
+            rtl: KTUtil.isRTL(),
+            todayHighlight: true,
+            orientation: "bottom left",
+            templates: arrows,
+            format: 'dd-mm-yyyy',
+            autoclose: true
+        }).datepicker('setDate', new Date());
+        
+        $('#creationDateEnd').datepicker({
+            rtl: KTUtil.isRTL(),
+            todayHighlight: true,
+            orientation: "bottom left",
+            templates: arrows,
+            format: 'dd-mm-yyyy',
+            autoclose: true
+        }).datepicker('setDate', new Date());
 	}
 	
 	var initAkun = function(){
