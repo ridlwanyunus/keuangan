@@ -33,4 +33,10 @@ public class PageController {
 		return new ModelAndView("budget");
 	}
 	
+	@GetMapping("/kas")
+	public ModelAndView kasArus(Model model) {
+		
+		return new ModelAndView("kas_arus");
+	}
+	
 }
