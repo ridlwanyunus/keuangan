@@ -103,7 +103,7 @@ var kasArus = function() {
     
     var createDetail = function(id, items){
 		
-    	var separator = '<tr class="fc-list-heading" data-date="2023-09-29"><td class="fc-widget-header" colspan="4"><a class="fc-list-heading-main" data-goto="{&quot;date&quot;:&quot;2023-09-29&quot;,&quot;type&quot;:&quot;day&quot;}">'+id+'</a><a class="fc-list-heading-alt" data-goto="{&quot;date&quot;:&quot;2023-09-29&quot;,&quot;type&quot;:&quot;day&quot;}"></a></td></tr>';
+    	var separator = '<tr class="fc-list-heading" style="background: white;" data-date="2023-09-29"><td class="fc-widget-header" style="background: white;" colspan="4"><a class="fc-list-heading-main" data-goto="{&quot;date&quot;:&quot;2023-09-29&quot;,&quot;type&quot;:&quot;day&quot;}">'+id+'</a><a class="fc-list-heading-alt" data-goto="{&quot;date&quot;:&quot;2023-09-29&quot;,&quot;type&quot;:&quot;day&quot;}"></a></td></tr>';
     	$("tbody").append(separator);
     	
     	var totalCashIn = 0;
