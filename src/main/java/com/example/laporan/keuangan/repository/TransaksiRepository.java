@@ -22,4 +22,9 @@ public interface TransaksiRepository extends JpaRepository<Transaksi, Integer> {
 	@Query(nativeQuery = true)
 	public List<TransaksiWrapper> findByStartAndEndDateWithWrapper(@Param("start") String start, @Param("end") String end);
 	
+	@Query(nativeQuery = true)
+	public List<TransaksiWrapper> findAllBudget();
+	
+	@Query(nativeQuery = true)
+	public List<TransaksiWrapper> findByIdBudget(@Param("idBudget") Integer idBudget);
 }

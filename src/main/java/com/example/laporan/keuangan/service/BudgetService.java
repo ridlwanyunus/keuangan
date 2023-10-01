@@ -23,6 +23,10 @@ public class BudgetService {
 		return repo.findByIdBudget(idBudget);
 	}
 	
+	public List<Budget> findByIdAkun(Integer idAkun){
+		return repo.findByIdAkun(idAkun);
+	}
+	
 	public void save(Budget budget) {
 		repo.save(budget);
 	}

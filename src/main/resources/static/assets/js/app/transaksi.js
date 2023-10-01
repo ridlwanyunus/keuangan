@@ -285,6 +285,28 @@ var transaksi = function() {
 
             })
         });
+        
+        $('#idAkun').on('change', function(){
+        	if($(this).val() == 1 || $(this).val() == 3) {
+        		$('#cashIn').val(0);
+        		$('#cashIn').prop('disabled', true);
+        		
+        		$('#cashOut').val(0);
+        		$('#cashOut').prop('disabled', false);
+        	} else
+        	if($(this).val() == 2 || $(this).val() == 4) {
+        		$('#cashIn').val(0);
+        		$('#cashIn').prop('disabled', false);
+        		
+        		$('#cashOut').val(0);
+        		$('#cashOut').prop('disabled', true);
+        	}
+        	
+        	if($(this).val() == 1 || $(this).val() == 2)
+        		loadBudget(2);
+        	else 
+	        	loadBudget($(this).val());
+        });
 
         $('#btn-edit-transaksi').on('click', function() {
             var id = $('#idTransaksi').val();
@@ -352,6 +374,13 @@ var transaksi = function() {
                 rightArrow: '<i class="la la-angle-right"></i>'
             }
         }
+		
+		var start = new Date();
+		start.setDate(1);
+		
+		var end = new Date();
+		end.setDate(1);
+		end.setMonth(end.getMonth() + 1);
 
         $('#creationDate').datepicker({
             rtl: KTUtil.isRTL(),
@@ -369,7 +398,7 @@ var transaksi = function() {
             templates: arrows,
             format: 'dd-mm-yyyy',
             autoclose: true
-        }).datepicker('setDate', new Date());
+        }).datepicker('setDate', new Date(start));
 
         $('#creationDateEnd').datepicker({
             rtl: KTUtil.isRTL(),
@@ -378,7 +407,7 @@ var transaksi = function() {
             templates: arrows,
             format: 'dd-mm-yyyy',
             autoclose: true
-        }).datepicker('setDate', new Date());
+        }).datepicker('setDate', new Date(end));
     }
 
     var initAkun = function() {
@@ -398,14 +427,19 @@ var transaksi = function() {
         });
     }
 
-    var initBudget = function() {
+    var loadBudget = function(idAkun) {
         $.ajax({
-            url: '/budget/list',
+            url: '/budget/find/akun/'+idAkun,
             type: 'GET',
             contentType: 'application/json',
             success: function(response) {
                 var items = response.data;
-
+				$('#idBudget').empty();
+				
+				var o = new Option("Pilih Budget", "");
+				$(o).html("Pilih Budget");
+				$('#idBudget').append(o);
+				
                 $.each(items, function(i, item) {
                     var o = new Option(item.nama, item.idBudget);
                     $(o).html(item.nama);
@@ -421,7 +455,6 @@ var transaksi = function() {
             initDatatable();
             buttonHandler();
             initAkun();
-            initBudget();
             initDatepicker();
         }
     }

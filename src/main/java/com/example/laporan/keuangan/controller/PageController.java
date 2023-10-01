@@ -39,4 +39,10 @@ public class PageController {
 		return new ModelAndView("kas_arus");
 	}
 	
+	@GetMapping("/laporan-budget")
+	public ModelAndView laporanBudget(Model model) {
+		
+		return new ModelAndView("laporan_budget");
+	}
+	
 }

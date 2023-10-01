@@ -38,4 +38,12 @@ public class TransaksiService {
 	public List<TransaksiWrapper> findByStartAndEndDate(String start, String end){
 		return repo.findByStartAndEndDateWithWrapper(start, end);
 	}
+	
+	public List<TransaksiWrapper> findAllBudget(){
+		return repo.findAllBudget();
+	}
+	
+	public List<TransaksiWrapper> findByIdBudget(Integer idBudget){
+		return repo.findByIdBudget(idBudget);
+	}
 }

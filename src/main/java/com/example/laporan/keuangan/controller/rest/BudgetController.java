@@ -38,6 +38,18 @@ public class BudgetController {
 		return response;
 	}
 	
+	@GetMapping("find/akun/{idAkun}")
+	public ResponseTemplate findByIdAkun(@PathVariable("idAkun") Integer idAkun) {
+		ResponseTemplate response = new ResponseTemplate();
+		List<Budget> budgets = budgetService.findByIdAkun(idAkun);
+		
+		response.setStatus(1);
+		response.setMessage("success get the records");
+		response.setData(budgets);
+		
+		return response;
+	}
+	
 	@GetMapping("list")
 	public ResponseTemplate list() {
 		

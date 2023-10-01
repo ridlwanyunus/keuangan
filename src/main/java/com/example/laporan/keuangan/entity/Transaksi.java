@@ -61,6 +61,38 @@ import lombok.NoArgsConstructor;
 )
 
 @NamedNativeQuery(
+		name = "Transaksi.findAllBudget", 
+		query = "SELECT t.id_transaksi, t.nama, t.cash_in, t.cash_out, t.id_akun, t.id_budget, t.status, t.status_info, t.creation_date, a.tipe_nama, b.nama budget_nama\r\n"
+				+ "FROM \r\n"
+				+ "	transaksi t \r\n"
+				+ "JOIN\r\n"
+				+ "	budget b\r\n"
+				+ "ON t.id_budget = b.id_budget \r\n"
+				+ "JOIN \r\n"
+				+ "	akun a \r\n"
+				+ "ON t.id_akun = a.id_akun",
+		resultSetMapping = "transaksiWrapperMapping",
+		resultClass = TransaksiWrapper.class
+)
+
+@NamedNativeQuery(
+		name = "Transaksi.findByIdBudget", 
+		query = "SELECT t.id_transaksi, t.nama, t.cash_in, t.cash_out, t.id_akun, t.id_budget, t.status, t.status_info, t.creation_date, a.tipe_nama, b.nama budget_nama\r\n"
+				+ "FROM \r\n"
+				+ "	budget b \r\n"
+				+ "JOIN\r\n"
+				+ "	transaksi t\r\n"
+				+ "ON t.id_budget = b.id_budget \r\n"
+				+ "JOIN \r\n"
+				+ "	akun a \r\n"
+				+ "ON t.id_akun = a.id_akun \r\n"
+				+ "where b.id_budget = :idBudget",
+		resultSetMapping = "transaksiWrapperMapping",
+		resultClass = TransaksiWrapper.class
+)
+
+
+@NamedNativeQuery(
 		name = "Transaksi.findByStartAndEndDateWithWrapper", 
 		query = "select \r\n"
 				+ "	t.id_transaksi, t.nama, t.cash_in, t.cash_out, t.id_akun, t.id_budget, t.status, t.status_info, t.creation_date, a.tipe_nama, b.nama budget_nama  \r\n"
