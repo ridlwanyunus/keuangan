@@ -381,6 +381,7 @@ var transaksi = function() {
 		var end = new Date();
 		end.setDate(1);
 		end.setMonth(end.getMonth() + 1);
+		end.setDate(end.getDate() - 1);
 
         $('#creationDate').datepicker({
             rtl: KTUtil.isRTL(),

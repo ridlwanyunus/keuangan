@@ -43,6 +43,7 @@ public class LaporanController {
 
 		String start = sdf.format(calendar.getTime());
 		calendar.add(Calendar.MONTH, 1);
+		calendar.add(Calendar.DAY_OF_MONTH, -1);
 		String end = sdf.format(calendar.getTime());
 		
 		List<TransaksiWrapper> transaksis = transaksiService.findByStartAndEndDate(start, end);
