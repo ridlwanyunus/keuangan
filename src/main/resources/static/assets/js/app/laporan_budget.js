@@ -67,15 +67,14 @@ var laporanBudget = function() {
 	    		}
     		});
     		
-    		createDetail(budget.nama, budget.biaya, tempTransaksi);
+    		createDetail(budget.nama, budget.biaya, budget.capaian, tempTransaksi);
     	});
     }
     
-    var createDetail = function(id, biaya, items){
+    var createDetail = function(id, biaya, capaian, items){
     
 	    var totalCashIn = 0;
     	var totalCashOut = 0;
-    	var capaian = 0;
     	
     	
     	
@@ -84,7 +83,6 @@ var laporanBudget = function() {
 	    	totalCashOut = totalCashOut + item.cashOut;
     	});
 		
-		capaian = totalCashIn - totalCashOut;
 		var progress = Utils.currencyFormat(capaian)+" dari "+Utils.currencyFormat(biaya);
 		
     	var separator = '<tr class="fc-list-heading" style="background: white;" data-date="2023-09-29"><td class="fc-widget-header" style="background: white;" colspan="5"><a class="fc-list-heading-main" data-goto="{&quot;date&quot;:&quot;2023-09-29&quot;,&quot;type&quot;:&quot;day&quot;}">'+id+'</a><a class="fc-list-heading-alt" data-goto="{&quot;date&quot;:&quot;2023-09-29&quot;,&quot;type&quot;:&quot;day&quot;}">'+progress+'</a></td></tr>';

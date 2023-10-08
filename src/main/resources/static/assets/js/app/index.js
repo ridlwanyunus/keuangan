@@ -31,19 +31,30 @@ var index = function() {
     	var hutang = data.hutang;
     	var piutang = data.piutang;
     	
+    	var cashInBudget = data.cashInBudget;
+    	var cashOutBudget  = data.cashOutBudget;
+    	var hutangBudget  = data.hutangBudget;
+    	var piutangBudget  = data.piutangBudget;
+    	
     	var cashInMonth = data.cashInMonth;
     	var cashOutMonth = data.cashOutMonth;
     	var hutangMonth = data.hutangMonth;
     	var piutangMonth = data.piutangMonth;
     	
+    	var totalBudget = (cashInBudget + piutangBudget) - (cashOutBudget + hutangBudget);
+    	var totalCash = (cashIn + piutang) - (cashOut + hutang);
     	
-    	var saldoAtm = (cashIn + piutang) - (cashOut + hutang);
+    	var saldoAtm = totalCash + totalBudget;
+    	
     	
     	$('#saldo-atm').text(Utils.currencyFormat(saldoAtm))
-    	$('#total-cashin').text(Utils.currencyFormat(cashIn + piutang))
-    	$('#total-cashout').text(Utils.currencyFormat(cashOut + hutang))
+    	$('#total-cash').text(Utils.currencyFormat(totalCash))
+    	$('#total-budget').text(Utils.currencyFormat(totalBudget))
     	$('#total-cashin-month').text(Utils.currencyFormat(cashInMonth + piutangMonth))
     	$('#total-cashout-month').text(Utils.currencyFormat(cashOutMonth + hutangMonth))
+    	$('#total-cashin').text(Utils.currencyFormat(cashIn + piutang))
+    	$('#total-cashout').text(Utils.currencyFormat(cashOut + hutang))
+    	
     	var today = new Date();
     	var month = today.toLocaleString('default', { month: 'long' })
     	var tanggalToday = month +"  "+ today.getDate() + ", " + today.getFullYear();

@@ -95,9 +95,6 @@ var kasArus = function() {
     		cashOut: totalPengeluaran + totalHutang
     	};
     	
-    	console.log(totalPemasukan);
-    	console.log(totalPiutang);
-    	
     	createTotal('Summary',total);
     }
     
@@ -110,7 +107,6 @@ var kasArus = function() {
     	var totalCashOut = 0;
     	var index = 1;
     	$.each(items, function(i, item){
-    		console.log(item)
     		var detailItem = '<tr class="fc-list-item fc-event-accent"><td class="fc-list-item-title fc-widget-content" style="width:5%"><span>'+index+'</span><div class="fc-description"></div></td><td class="fc-list-item-title fc-widget-content" style="width:45%"><span>'+item.nama+'</span><div class="fc-description"></div></td><td class="fc-list-item-title fc-widget-content" style="width:25%;text-align:right"><span>'+Utils.currencyFormat(item.cashIn)+'</span><div class="fc-description"></div></td><td class="fc-list-item-title fc-widget-content" style="width:25%;text-align:right"><span>'+Utils.currencyFormat(item.cashOut)+'</span><div class="fc-description"></div></td></tr>';
 	    	$("tbody").append(detailItem);
 	    	index++;
@@ -124,7 +120,6 @@ var kasArus = function() {
     }
     
     var createTotal = function(id, item){
-		    		console.log(item)
     	var separator = '<tr class="fc-list-heading" data-date=""><td class="fc-widget-header" colspan="4"><a class="fc-list-heading-main" data-goto="{&quot;date&quot;:&quot;2023-09-29&quot;,&quot;type&quot;:&quot;day&quot;}">'+id+'</a><a class="fc-list-heading-alt" data-goto="{&quot;date&quot;:&quot;2023-09-29&quot;,&quot;type&quot;:&quot;day&quot;}"></a></td></tr>';
     	$("tbody").append(separator);
     	

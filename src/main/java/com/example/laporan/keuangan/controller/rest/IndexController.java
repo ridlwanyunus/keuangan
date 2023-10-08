@@ -21,6 +21,8 @@ import com.example.laporan.keuangan.response.StatisticWrapper;
 import com.example.laporan.keuangan.response.TransaksiWrapper;
 import com.example.laporan.keuangan.service.TransaksiService;
 import com.example.laporan.keuangan.utils.TransaksiUtils;
+import com.fasterxml.jackson.core.JsonProcessingException;
+import com.fasterxml.jackson.databind.ObjectMapper;
 
 @RestController
 @RequestMapping("index")
@@ -51,22 +53,41 @@ public class IndexController {
 		BigDecimal hutang = new BigDecimal(0);
 		BigDecimal piutang = new BigDecimal(0);
 		
+		BigDecimal cashInBudget = new BigDecimal(0);
+		BigDecimal cashOutBudget = new BigDecimal(0);
+		BigDecimal hutangBudget = new BigDecimal(0);
+		BigDecimal piutangBudget = new BigDecimal(0);
+		
 		for(Transaksi transaksi: transaksis) {
 			if(transaksi.getIdAkun() == 1) {
 				// Pengeluaran
-				cashOut = cashOut.add(new BigDecimal(transaksi.getCashOut().toString())).subtract(new BigDecimal(transaksi.getCashIn().toString()));
+				if(transaksi.getIdBudget() != null)
+					cashInBudget = cashInBudget.add(new BigDecimal(transaksi.getCashOut().toString()));
+				
+				cashOut = cashOut.add(new BigDecimal(transaksi.getCashOut().toString()));
+					
 			} else 
 			if(transaksi.getIdAkun() == 2) {
 				// Pemasukan
-				cashIn = cashIn.add(new BigDecimal(transaksi.getCashIn().toString())).subtract(new BigDecimal(transaksi.getCashOut().toString()));
+				if(transaksi.getIdBudget() != null)
+					cashOutBudget = cashOutBudget.add(new BigDecimal(transaksi.getCashIn().toString()));
+				
+				cashIn = cashIn.add(new BigDecimal(transaksi.getCashIn().toString()));
 			} else 
 			if(transaksi.getIdAkun() == 3) {
 				// Hutang
-				hutang = hutang.add(new BigDecimal(transaksi.getCashOut().toString())).subtract(new BigDecimal(transaksi.getCashIn().toString()));
+				if(transaksi.getIdBudget() != null)
+					piutangBudget = piutangBudget.add(new BigDecimal(transaksi.getCashOut().toString()));
+				
+				hutang = hutang.add(new BigDecimal(transaksi.getCashOut().toString()));	
+				
 			} else
 			if(transaksi.getIdAkun() == 4) {
 				// Piutang
-				piutang = piutang.add(new BigDecimal(transaksi.getCashIn().toString())).subtract(new BigDecimal(transaksi.getCashOut().toString()));
+				if(transaksi.getIdBudget() != null)
+					hutangBudget = hutangBudget.add(new BigDecimal(transaksi.getCashIn().toString()));
+				
+				piutang = piutang.add(new BigDecimal(transaksi.getCashIn().toString()));
 			}
 		}
 		
@@ -79,10 +100,24 @@ public class IndexController {
 		map.put("cashOut", cashOut);
 		map.put("hutang", hutang);
 		map.put("piutang", piutang);
+		
+		map.put("cashInBudget", cashInBudget);
+		map.put("cashOutBudget", cashOutBudget);
+		map.put("hutangBudget", hutangBudget);
+		map.put("piutangBudget", piutangBudget);
+		
+		
 		map.put("cashInMonth", statistic.getCashIn());
 		map.put("cashOutMonth", statistic.getCashOut());
 		map.put("hutangMonth", statistic.getHutang());
 		map.put("piutangMonth", statistic.getPiutang());
+		
+		try {
+			System.out.println(new ObjectMapper().writerWithDefaultPrettyPrinter().writeValueAsString(map));
+		} catch (JsonProcessingException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
 		
 		response.setStatus(1);
 		response.setMessage("Success load index");
@@ -109,13 +144,11 @@ public class IndexController {
 			calendar.set(Calendar.DAY_OF_MONTH, 1);
 
 			String start = sdf.format(calendar.getTime());
-			System.out.println("start: "+start);
 			
 			calendar.add(Calendar.MONTH, 1);
 			calendar.add(Calendar.DAY_OF_MONTH, -1);
 
 			String end = sdf.format(calendar.getTime());
-			System.out.println("end: "+end);
 			
 			StatisticWrapper statistic = transaksiUtils.mappingCashInCashout(start, end);
 			BigDecimal cashIn = statistic.getCashIn();

@@ -62,7 +62,16 @@ var budget = function() {
 					
 				});
 				
-				$('.btn-edit').on('click', function(e){
+				generateEditButton();
+				generateDeleteButton();
+				
+				
+			}
+		})
+	}
+	
+	var generateEditButton = function() {
+		$('#kt_table tbody').on('click', '.btn-edit', function(e){
 					var id = $(this).data('id');
 					
 					$.ajax({
@@ -89,8 +98,10 @@ var budget = function() {
 					});
 
 				});
-				
-				$('.btn-delete').on('click', function(e){
+	}
+	
+	var generateDeleteButton = function() {
+		$('#kt_table tbody').on('click', '.btn-delete', function(e){
 					var id = $(this).data('id');
 					
 					swal.fire({
@@ -125,8 +136,6 @@ var budget = function() {
 		                }
 		            });
 				});
-			}
-		})
 	}
 	
 	var buttonHandler = function(){

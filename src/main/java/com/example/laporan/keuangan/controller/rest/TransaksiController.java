@@ -19,6 +19,7 @@ import com.example.laporan.keuangan.response.ResponseTemplate;
 import com.example.laporan.keuangan.response.TransaksiWrapper;
 import com.example.laporan.keuangan.service.TransaksiService;
 import com.example.laporan.keuangan.utils.AppConstant;
+import com.example.laporan.keuangan.utils.TransaksiUtils;
 
 @RestController
 @RequestMapping("transaksi")
@@ -27,6 +28,9 @@ public class TransaksiController {
 	
 	@Autowired
 	private TransaksiService transaksiService;
+	
+	@Autowired
+	private TransaksiUtils transaksiUtils;
 	
 	@GetMapping("find/{idTransaksi}")
 	public ResponseTemplate findById(@PathVariable("idTransaksi") Integer idTransaksi) {
@@ -88,6 +92,9 @@ public class TransaksiController {
 		
 		transaksiService.save(transaksi);
 		
+		if(transaksi.getIdBudget() != null)
+			transaksiUtils.budgetRecalculate(transaksi);
+		
 		ResponseTemplate response = new ResponseTemplate();
 		response.setStatus(1);
 		response.setMessage("success save the annotation");
@@ -129,6 +136,8 @@ public class TransaksiController {
 		}
 
 		transaksiService.save(transaksi);
+		if(transaksi.getIdBudget() != null)
+			transaksiUtils.budgetRecalculate(transaksi);
 		
 		
 		response.setStatus(1);
@@ -152,7 +161,8 @@ public class TransaksiController {
 			}
 			
 			transaksiService.delete(findOneTransaksi);
-			
+			if(findOneTransaksi.getIdBudget() != null)
+				transaksiUtils.budgetRecalculate(findOneTransaksi);
 			
 			response.setStatus(1);
 			response.setMessage("Berhasil menghapus transaksi");

@@ -74,24 +74,26 @@ var transaksi = function() {
     }
 
     var generateEditButton = function() {
-        $('.btn-edit').on('click', function(e) {
+        $('#kt_table tbody').on('click', '.btn-edit', function(e) {
+	
+			
             var id = $(this).data('id');
-
             $.ajax({
                 url: '/transaksi/find/' + id,
                 type: 'GET',
                 contentType: 'application/json',
                 success: function(response) {
-
+					
                     if (response.status == 1) {
+						
                         $('#kt_modal').modal('toggle');
                         $('#idTransaksi').val(id);
                         $('#nama').val(response.data.nama);
                         $('#idAkun').val(response.data.idAkun);
-                        $('#idBudget').val(response.data.idBudget);
+						loadBudgetDefault(response.data.idBudget);
                         $('#cashIn').val(response.data.cashIn);
                         $('#cashOut').val(response.data.cashOut);
-                        $('#creationDate').val(response.data.creationDate);
+                        $('#creationDate').val(Utils.formatTransaksiAcceptedDate(response.data.creationDate));
                         $('#status').val(response.data.status);
 
                         $('#btn-save-transaksi').hide();
@@ -106,7 +108,7 @@ var transaksi = function() {
     }
 
     var generateDeleteButton = function() {
-        $('.btn-delete').on('click', function(e) {
+        $('#kt_table tbody').on('click', '.btn-delete', function(e) {
             var id = $(this).data('id');
 
             swal.fire({
@@ -302,10 +304,7 @@ var transaksi = function() {
         		$('#cashOut').prop('disabled', true);
         	}
         	
-        	if($(this).val() == 1 || $(this).val() == 2)
-        		loadBudget(2);
-        	else 
-	        	loadBudget($(this).val());
+        	loadBudget();
         });
 
         $('#btn-edit-transaksi').on('click', function() {
@@ -428,9 +427,9 @@ var transaksi = function() {
         });
     }
 
-    var loadBudget = function(idAkun) {
+    var loadBudget = function() {
         $.ajax({
-            url: '/budget/find/akun/'+idAkun,
+            url: '/budget/list',
             type: 'GET',
             contentType: 'application/json',
             success: function(response) {
@@ -446,6 +445,30 @@ var transaksi = function() {
                     $(o).html(item.nama);
                     $('#idBudget').append(o);
                 });
+            }
+        });
+    }
+    
+    var loadBudgetDefault = function(idBudget) {
+        $.ajax({
+            url: '/budget/list',
+            type: 'GET',
+            contentType: 'application/json',
+            success: function(response) {
+                var items = response.data;
+				$('#idBudget').empty();
+				
+				var o = new Option("Pilih Budget", "");
+				$(o).html("Pilih Budget");
+				$('#idBudget').append(o);
+				
+                $.each(items, function(i, item) {
+                    var o = new Option(item.nama, item.idBudget);
+                    $(o).html(item.nama);
+                    $('#idBudget').append(o);
+                });
+                
+                $('#idBudget').val(idBudget);
             }
         });
     }

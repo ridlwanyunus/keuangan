@@ -8,6 +8,15 @@ var Utils = function(){
 		var arr = value.split("-");
 		return arr[2] + "-" + arr[1] + "-" + arr[0];
 	}
+	
+	var formatTransaksiAcceptedDate = function(value){
+		value = value.substring(0,10);
+		console.log(value);
+		var arr = value.split("-");
+		return arr[2] + "-" + arr[1] + "-" + arr[0];
+	}
+	
+	
 	var currencyFormat = function(value) {
 		var xx = new Intl.NumberFormat('id-ID', {
 		  style: 'currency',
@@ -27,6 +36,9 @@ var Utils = function(){
 		},
 		currencyFormat: function(value){
 			return currencyFormat(value);
+		},
+		formatTransaksiAcceptedDate: function(value){
+			return formatTransaksiAcceptedDate(value);
 		}
 	};
 }();
