@@ -181,8 +181,9 @@ public class IndexController {
 	public ResponseTemplate history(@PathVariable("tahun") Integer tahun) {
 		ResponseTemplate response = new ResponseTemplate();
 		
-		List<Saldo> listSaldo = saldoService.findByTahun(tahun); 
-		
+		//List<Saldo> listSaldo = saldoService.findByTahun(tahun); 
+		List<Saldo> listSaldo = saldoService.findAllWithTransaction();
+
 		response.setStatus(1);
 		response.setMessage("Success load history");
 		response.setData(listSaldo);

@@ -31,6 +31,10 @@ public class SaldoService {
 		return repo.findByTahun(tahun);
 	}
 	
+	public List<Saldo> findAllWithTransaction(){
+		return repo.findAllWithTransaction();
+	}
+	
 	public void save(Saldo saldo) {
 		repo.save(saldo);
 	}

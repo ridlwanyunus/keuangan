@@ -18,7 +18,10 @@ public interface SaldoRepository extends JpaRepository<Saldo, Integer> {
 	@Query("select s from Saldo s where tahun = :tahun and bulan = :bulan")
 	public Saldo findByTahunAndBulan(@Param("tahun") Integer tahun, @Param("bulan") Integer bulan);
 
-	@Query("select s from Saldo s where tahun = :tahun")
+	@Query("select s from Saldo s where tahun = :tahun order by tahun, bulan desc")
 	public List<Saldo> findByTahun(@Param("tahun") Integer tahun);
+
+	@Query("select s from Saldo s where selisih != 0 order by tahun, bulan desc")
+	public List<Saldo> findAllWithTransaction();
 	
 }

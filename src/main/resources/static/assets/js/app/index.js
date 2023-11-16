@@ -290,15 +290,16 @@ var index = function() {
                 {
                     "data": null,
                     render: function(data, type, full, meta) {
+                    	var currency = Utils.currencyFormat(full.selisih);
                         var tipeNama = '';
                         if (full.status == 1) {
-                            tipeNama = '<span class="kt-badge kt-badge--inline kt-badge--success">' + full.statusInfo + '</span>';
+                            tipeNama = '<span class="kt-badge kt-badge--inline kt-badge--success">' + full.statusInfo + '</span><br><span style="color: #0abb87;">'+'+'+currency+'</span>';
                         } else
                         if (full.status == 0) {
                             tipeNama = '<span class="kt-badge kt-badge--inline kt-badge--primary">' + full.statusInfo + '</span>';
                         } else
                         if (full.status == -1) {
-                            tipeNama = '<span class="kt-badge kt-badge--inline kt-badge--danger">' + full.statusInfo + '</span>';
+                            tipeNama = '<span class="kt-badge kt-badge--inline kt-badge--danger">' + full.statusInfo + '</span><br><span style="color: #fd397a;">'+currency+'</span>';
                         } 
                         return tipeNama;
                     }
@@ -308,19 +309,6 @@ var index = function() {
                     render: function(data, type, full, meta){
                     	var currency = Utils.currencyFormat(full.total);
 						return currency;                    	
-                    }
-                },
-                {
-                    target: -1,
-                    title: 'Actions',
-                    orderable: false,
-                    render: function(data, type, full, meta) {
-                        return `
-									<div class="kt-section__content kt-section__content--solid">
-										<button type="button" data-id="` + full.idTransaksi + `" data-status="1" class="btn btn-sm btn-outline-warning btn-edit">Edit</button>
-										<button type="button" data-id="` + full.idTransaksi + `" data-status="-1" class="btn btn-sm btn-outline-danger btn-delete">Hapus</button>
-									</div>
-								`
                     }
                 }
             ]

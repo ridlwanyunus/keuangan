@@ -133,6 +133,8 @@ public class TransaksiUtils {
 			
 			SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
 			
+			Double currentSaldo = Double.valueOf(0);
+			
 			for(int i=tahunAwal; i<=tahunAkhir; i++) {
 				for(int bulan=0; bulan < 12; bulan++) {
 					calendar.set(i, bulan, 1);
@@ -167,6 +169,10 @@ public class TransaksiUtils {
 						}
 					}
 					
+					// Sum of saldo from month 1 to 12 in the same year
+					
+					currentSaldo = currentSaldo + (cashInMonth.doubleValue() + piutangMonth.doubleValue()) - (cashOutMonth.doubleValue() + hutangMonth.doubleValue());
+					
 					System.out.println(String.format("tanggal %s sampai %s", start, end));
 					System.out.println(String.format("Pengeluaran: %s", cashOutMonth));
 					System.out.println(String.format("Pemasukan: %s", cashInMonth));
@@ -182,16 +188,20 @@ public class TransaksiUtils {
 					
 					Double keluar = cashOutMonth.add(hutangMonth).doubleValue();
 					Double masuk = cashInMonth.add(piutangMonth).doubleValue();
-					Double total = masuk - keluar;
+					Double selisih = masuk - keluar;
+					
+					Double total = currentSaldo;
 
 					saldo.setMasuk(masuk);
 					saldo.setKeluar(keluar);
+					saldo.setSelisih(selisih);
 					saldo.setTotal(total);
-					if(total > 0) {
+					
+					if(selisih > 0) {
 						saldo.setStatus(1);
 						saldo.setStatusInfo("surplus");
 					} else 
-					if (total == 0) {
+					if (selisih == 0) {
 						saldo.setStatus(0);
 						saldo.setStatusInfo("tetap");
 					} else {
