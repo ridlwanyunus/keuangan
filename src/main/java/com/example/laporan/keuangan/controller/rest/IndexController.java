@@ -40,7 +40,7 @@ public class IndexController {
 	@Autowired
 	SaldoService saldoService;
 	
-	@GetMapping("load")
+	@GetMapping("summary")
 	public ResponseTemplate load() {
 		ResponseTemplate response = new ResponseTemplate();
 		
@@ -177,11 +177,10 @@ public class IndexController {
 		return response;
 	}
 	
-	@GetMapping("history/{tahun}")
-	public ResponseTemplate history(@PathVariable("tahun") Integer tahun) {
+	@GetMapping("history")
+	public ResponseTemplate history() {
 		ResponseTemplate response = new ResponseTemplate();
-		
-		//List<Saldo> listSaldo = saldoService.findByTahun(tahun); 
+
 		List<Saldo> listSaldo = saldoService.findAllWithTransaction();
 
 		response.setStatus(1);

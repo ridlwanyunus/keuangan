@@ -25,6 +25,8 @@ public class Saldo {
 	private Integer tahun;
 	private Double masuk;
 	private Double keluar;
+	private Double hutang;
+	private Double piutang;
 	private Double selisih;
 	private Double total;
 	private Integer status;

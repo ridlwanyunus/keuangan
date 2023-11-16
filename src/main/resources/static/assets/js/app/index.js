@@ -7,7 +7,7 @@ var index = function() {
 
     var initPage = function() {
         $.ajax({
-            url: '/index/load',
+            url: '/index/summary',
             type: 'GET',
             contentType: 'application/json',
             success: function(response) {
@@ -64,6 +64,8 @@ var index = function() {
     }
     
     var initStatistics = function() {
+    	$('#statistic-year').text(new Date().getFullYear());
+    
         $.ajax({
             url: '/index/statistics',
             type: 'GET',
@@ -218,11 +220,9 @@ var index = function() {
 	}
     
     var initHistory = function(){
-    
-    	var year = new Date().getFullYear();
-    	
+
     	$.ajax({
-    		url: 'index/history/'+year,
+    		url: 'index/history',
     		type: 'GET',
     		contentType: 'application/json',
     		success: function(response){
