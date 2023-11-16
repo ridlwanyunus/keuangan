@@ -12,13 +12,16 @@ import java.util.Map;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.example.laporan.keuangan.entity.Saldo;
 import com.example.laporan.keuangan.entity.Transaksi;
 import com.example.laporan.keuangan.response.ResponseTemplate;
 import com.example.laporan.keuangan.response.StatisticWrapper;
 import com.example.laporan.keuangan.response.TransaksiWrapper;
+import com.example.laporan.keuangan.service.SaldoService;
 import com.example.laporan.keuangan.service.TransaksiService;
 import com.example.laporan.keuangan.utils.TransaksiUtils;
 import com.fasterxml.jackson.core.JsonProcessingException;
@@ -33,6 +36,9 @@ public class IndexController {
 	
 	@Autowired
 	TransaksiUtils transaksiUtils;
+	
+	@Autowired
+	SaldoService saldoService;
 	
 	@GetMapping("load")
 	public ResponseTemplate load() {
@@ -167,6 +173,19 @@ public class IndexController {
 		response.setStatus(1);
 		response.setMessage("Success load index");
 		response.setData(data);
+
+		return response;
+	}
+	
+	@GetMapping("history/{tahun}")
+	public ResponseTemplate history(@PathVariable("tahun") Integer tahun) {
+		ResponseTemplate response = new ResponseTemplate();
+		
+		List<Saldo> listSaldo = saldoService.findByTahun(tahun); 
+		
+		response.setStatus(1);
+		response.setMessage("Success load history");
+		response.setData(listSaldo);
 
 		return response;
 	}

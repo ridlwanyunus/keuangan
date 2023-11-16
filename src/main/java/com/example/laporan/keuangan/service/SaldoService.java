@@ -23,6 +23,14 @@ public class SaldoService {
 		return repo.findByIdSaldo(idSaldo);
 	}
 	
+	public Saldo findByTahunAndBulan(Integer tahun, Integer bulan) {
+		return repo.findByTahunAndBulan(tahun, bulan);
+	}
+	
+	public List<Saldo> findByTahun(Integer tahun){
+		return repo.findByTahun(tahun);
+	}
+	
 	public void save(Saldo saldo) {
 		repo.save(saldo);
 	}

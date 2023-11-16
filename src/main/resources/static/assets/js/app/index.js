@@ -217,11 +217,122 @@ var index = function() {
 		});
 	}
     
+    var initHistory = function(){
+    
+    	var year = new Date().getFullYear();
+    	
+    	$.ajax({
+    		url: 'index/history/'+year,
+    		type: 'GET',
+    		contentType: 'application/json',
+    		success: function(response){
+    			loadDatatable(response);
+    		}
+    	});
+    }
+    
+    const month = [
+    	"Januari",
+    	"Februari",
+    	"Maret",
+    	"April",
+    	"Mei",
+    	"Juni",
+    	"Juli",
+    	"Agustus",
+    	"September",
+    	"Oktober",
+    	"November",
+    	"Desember"
+    	
+    ]
+    
+    var loadDatatable = function(response){
+    	var table = $('#kt_table');
+
+        table.DataTable({
+            data: response.data,
+            destroy: true,
+            scrollY: '50vh',
+            scrollX: true,
+            scrollCollapse: true,
+            ordering: false,
+            columns: [{
+                    "data": null,
+                    render: function(data, type, full, meta) {
+                        return meta.row + meta.settings._iDisplayStart + 1;
+                    }
+                },
+                {
+                    "data": "tahun"
+                },
+                {
+                    "data": "bulan",
+                    render: function(data, type, full, meta){
+                    	var bulan = full.bulan - 1;
+                    	return month[bulan];
+                    }
+                },
+                {
+                    "data": null,
+                    render: function(data, type, full, meta){
+                    	var currency = Utils.currencyFormat(full.masuk);
+						return currency;                    	
+                    }
+                },
+                {
+                    "data": null,
+                    render: function(data, type, full, meta){
+                    	var currency = Utils.currencyFormat(full.keluar);
+						return currency;                    	
+                    }
+                },
+                {
+                    "data": null,
+                    render: function(data, type, full, meta) {
+                        var tipeNama = '';
+                        if (full.status == 1) {
+                            tipeNama = '<span class="kt-badge kt-badge--inline kt-badge--success">' + full.statusInfo + '</span>';
+                        } else
+                        if (full.status == 0) {
+                            tipeNama = '<span class="kt-badge kt-badge--inline kt-badge--primary">' + full.statusInfo + '</span>';
+                        } else
+                        if (full.status == -1) {
+                            tipeNama = '<span class="kt-badge kt-badge--inline kt-badge--danger">' + full.statusInfo + '</span>';
+                        } 
+                        return tipeNama;
+                    }
+                },
+                {
+                    "data": null,
+                    render: function(data, type, full, meta){
+                    	var currency = Utils.currencyFormat(full.total);
+						return currency;                    	
+                    }
+                },
+                {
+                    target: -1,
+                    title: 'Actions',
+                    orderable: false,
+                    render: function(data, type, full, meta) {
+                        return `
+									<div class="kt-section__content kt-section__content--solid">
+										<button type="button" data-id="` + full.idTransaksi + `" data-status="1" class="btn btn-sm btn-outline-warning btn-edit">Edit</button>
+										<button type="button" data-id="` + full.idTransaksi + `" data-status="-1" class="btn btn-sm btn-outline-danger btn-delete">Hapus</button>
+									</div>
+								`
+                    }
+                }
+            ]
+
+        });
+    }
 
     return {
         init: function() {
             initPage();
             initStatistics();
+            initHistory();
         }
     }
 

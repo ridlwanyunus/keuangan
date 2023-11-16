@@ -92,8 +92,12 @@ public class TransaksiController {
 		
 		transaksiService.save(transaksi);
 		
+		// Recalculate Budget
 		if(transaksi.getIdBudget() != null)
 			transaksiUtils.budgetRecalculate(transaksi);
+		
+		// Recalculate Saldo
+		transaksiUtils.saldoRecalculate();
 		
 		ResponseTemplate response = new ResponseTemplate();
 		response.setStatus(1);
@@ -136,9 +140,13 @@ public class TransaksiController {
 		}
 
 		transaksiService.save(transaksi);
+		
+		// Recalculate Budget
 		if(transaksi.getIdBudget() != null)
 			transaksiUtils.budgetRecalculate(transaksi);
 		
+		// Recalculate Saldo
+		transaksiUtils.saldoRecalculate();
 		
 		response.setStatus(1);
 		response.setMessage("success update the record");
@@ -161,9 +169,13 @@ public class TransaksiController {
 			}
 			
 			transaksiService.delete(findOneTransaksi);
+			
+			// Recalculate Budget
 			if(findOneTransaksi.getIdBudget() != null)
 				transaksiUtils.budgetRecalculate(findOneTransaksi);
 			
+			// Recalculate Saldo
+			transaksiUtils.saldoRecalculate();
 			response.setStatus(1);
 			response.setMessage("Berhasil menghapus transaksi");
 			response.setData(findOneTransaksi);
