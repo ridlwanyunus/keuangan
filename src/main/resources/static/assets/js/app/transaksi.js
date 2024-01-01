@@ -28,10 +28,18 @@ var transaksi = function() {
                     "data": "nama"
                 },
                 {
-                    "data": "cashIn"
+                    "data": "cashIn",
+                    render: function(data, type, full, meta) {
+                    	var currency = Utils.currencyFormat(full.cashIn);
+                    	return currency;
+                    }
                 },
                 {
-                    "data": "cashOut"
+                    "data": "cashOut",
+                    render: function(data, type, full, meta) {
+                    	var currency = Utils.currencyFormat(full.cashOut);
+                    	return currency;
+                    }
                 },
                 {
                     "data": "tipeNama",
@@ -51,9 +59,6 @@ var transaksi = function() {
                         }
                         return tipeNama;
                     }
-                },
-                {
-                    "data": "budgetNama"
                 },
                 {
                     target: -1,

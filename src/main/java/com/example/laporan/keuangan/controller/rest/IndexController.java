@@ -184,21 +184,10 @@ public class IndexController {
 		ResponseTemplate response = new ResponseTemplate();
 
 		List<Saldo> listSaldo = saldoService.findAllWithTransaction();
-
-		Collections.sort(listSaldo, new Comparator<Saldo>() {
-
-			@Override
-			public int compare(Saldo o1, Saldo o2) {
-				// TODO Auto-generated method stub
-				int date1 = o1.getTahun() + o1.getBulan();
-				int date2 = o2.getTahun() + o2.getBulan();
-				
-				return date1 - date2;
-			}
-
-		});
 		
-		
+		for(Saldo saldo: listSaldo) {
+			System.out.println(saldo.toString());
+		}
 		
 		response.setStatus(1);
 		response.setMessage("Success load history");

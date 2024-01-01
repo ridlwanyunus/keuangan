@@ -226,9 +226,27 @@ var index = function() {
     		type: 'GET',
     		contentType: 'application/json',
     		success: function(response){
+    			console.log(response.data)
+    			initStatusKeuangan(response.data[0])
     			loadDatatable(response);
     		}
     	});
+    }
+    
+    var initStatusKeuangan = function(saldo){
+    	if(saldo.selisih >= 0){
+    	
+    		var html = `<span class="kt-widget12__value" style="display:inline; color:#0abb87">+`+Utils.currencyFormat(saldo.selisih)+`</span>
+							  <span class="kt-badge kt-badge--inline kt-badge--success" style="margin-left: 5px;">surplus</span>
+							  `;
+    		
+    	} else 
+    	if(saldo.selisih < 0){
+    		var html = `<span class="kt-widget12__value" style="display:inline; color:#fd397a">`+Utils.currencyFormat(saldo.selisih)+`</span>
+							  <span class="kt-badge kt-badge--inline kt-badge--danger" style="margin-left: 5px;">minus</span>
+							  `;
+    	}
+    	$('#status-keuangan').html(html);
     }
     
     const month = [
