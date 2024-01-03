@@ -42,9 +42,9 @@ var index = function() {
     	var piutangMonth = data.piutangMonth;
     	
     	var totalBudget = (cashInBudget + piutangBudget) - (cashOutBudget + hutangBudget);
-    	var totalCash = (cashIn + piutang) - (cashOut + hutang);
+    	var saldoAtm = (cashIn + piutang) - (cashOut + hutang);
     	
-    	var saldoAtm = totalCash + totalBudget;
+    	var totalCash = saldoAtm + totalBudget;
     	
     	
     	$('#saldo-atm').text(Utils.currencyFormat(saldoAtm))
