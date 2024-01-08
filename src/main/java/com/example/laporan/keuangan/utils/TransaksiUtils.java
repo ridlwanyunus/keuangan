@@ -5,6 +5,7 @@ import java.text.SimpleDateFormat;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
+import java.util.concurrent.ExecutorService;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
@@ -31,75 +32,30 @@ public class TransaksiUtils {
 	@Autowired
 	private SaldoService saldoService;
 	
+	@Autowired
+	private ExecutorService executor;
+	
 	
 	public void saldoRecalculate() {
+
+		saldoRecalculateAdvanced();
+	}
+	
+	public void saldoRecalculateAdvanced() {
 		
-		new Thread(() -> {
-			int tahunAwal = 2023;
-			
-			Calendar calendar = Calendar.getInstance();
-			calendar.setTime(new Date());
-			int tahunAkhir = calendar.get(Calendar.YEAR);
-			
-			SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
-			
-			Double currentSaldo = Double.valueOf(0);
-			
-			for(int i=tahunAwal; i<=tahunAkhir; i++) {
-				for(int bulan=0; bulan < 12; bulan++) {
-					calendar.set(i, bulan, 1);
-					String start = sdf.format(calendar.getTime());
-					
-					calendar.add(calendar.MONTH, 1);
-					calendar.add(calendar.DAY_OF_MONTH, -1);
-					String end = sdf.format(calendar.getTime());
-					
-					// Get transaction of this month
-					SaldoWrapper saldoWrapper = this.mappingCashInCashout(start, end);
-					
-					// Sum of saldo from month 1 to 12 in the same year
-					currentSaldo = currentSaldo + (saldoWrapper.getCashIn().doubleValue() + saldoWrapper.getPiutang().doubleValue()) - (saldoWrapper.getCashOut().doubleValue() + saldoWrapper.getHutang().doubleValue());
-					
-					System.out.println(String.format("tanggal %s sampai %s", start, end));
-					
-					Saldo saldo = saldoService.findByTahunAndBulan(i, bulan+1);
-					if(saldo == null) {
-						saldo = new Saldo();
-						saldo.setTahun(i);
-						saldo.setBulan(bulan + 1);
-					} 
-					
-					Double keluar = saldoWrapper.getCashOut().doubleValue();
-					Double masuk = saldoWrapper.getCashIn().doubleValue();
-					Double hutang = saldoWrapper.getHutang().doubleValue();
-					Double piutang = saldoWrapper.getPiutang().doubleValue();
-					Double selisih = (masuk + piutang) - (keluar + hutang);
-					Double total = currentSaldo;
-
-					saldo.setMasuk(masuk);
-					saldo.setKeluar(keluar);
-					saldo.setHutang(hutang);
-					saldo.setPiutang(piutang);
-					saldo.setSelisih(selisih);
-					saldo.setTotal(total);
-					
-					if(selisih > 0) {
-						saldo.setStatus(1);
-						saldo.setStatusInfo("surplus");
-					} else 
-					if (selisih == 0) {
-						saldo.setStatus(0);
-						saldo.setStatusInfo("tetap");
-					} else {
-						saldo.setStatus(-1);
-						saldo.setStatusInfo("minus");
-					}
-					
-					saldoService.save(saldo);
-				}
+		int tahunAwal = 2023;
+		
+		Calendar calendar = Calendar.getInstance();
+		calendar.setTime(new Date());
+		int tahunAkhir = calendar.get(Calendar.YEAR);
+		
+		for(int i=tahunAwal; i<=tahunAkhir; i++) {
+			for(int bulan=0; bulan < 12; bulan++) {
+				executor.submit(new SaldoTask(i, bulan, saldoService, transaksiService));
 			}
-		}).start();
+		}
 
+		
 	}
 	
 	
@@ -193,5 +149,5 @@ public class TransaksiUtils {
 		
 		return saldoWrapper;
 	}
-	
+
 }
