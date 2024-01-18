@@ -2,10 +2,12 @@ package com.example.laporan.keuangan.utils;
 
 import java.math.BigDecimal;
 import java.text.SimpleDateFormat;
+import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
 import java.util.concurrent.ExecutorService;
+import java.util.concurrent.Future;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
@@ -38,7 +40,16 @@ public class TransaksiUtils {
 	
 	public void saldoRecalculate() {
 
-		saldoRecalculateAdvanced();
+		Thread saldoThread = new Thread(new Runnable() {
+			
+			@Override
+			public void run() {
+				// TODO Auto-generated method stub
+				saldoRecalculateAdvanced();
+			}
+		});
+		saldoThread.start();
+		
 	}
 	
 	public void saldoRecalculateAdvanced() {
@@ -49,11 +60,39 @@ public class TransaksiUtils {
 		calendar.setTime(new Date());
 		int tahunAkhir = calendar.get(Calendar.YEAR);
 		
+		List<Future<?>> futures = new ArrayList<Future<?>>();
+		
 		for(int i=tahunAwal; i<=tahunAkhir; i++) {
 			for(int bulan=0; bulan < 12; bulan++) {
-				executor.submit(new SaldoTask(i, bulan, saldoService, transaksiService));
+				Future<?> f = executor.submit(new SaldoTask(i, bulan, saldoService, transaksiService));
+				futures.add(f);
 			}
 		}
+		
+		try {
+			System.out.println("###### All tasks are submitted.");
+			for(Future<?> f: futures) {
+				f.get();
+			}
+			System.out.println("###### All tasks are completed.");
+			List<Saldo> saldos = new ArrayList<Saldo>();
+			saldos = saldoService.findAll();
+			
+			List<Saldo> recalculateSaldos = new ArrayList<Saldo>();
+			Double currentSaldo = Double.valueOf(0);
+			
+			for(Saldo saldo: saldos) {
+				currentSaldo = currentSaldo + saldo.getSelisih();
+				saldo.setTotal(currentSaldo);
+				recalculateSaldos.add(saldo);
+			}
+			saldoService.saveAll(recalculateSaldos);
+			System.out.println("###### Recalculate saldo is completed.");
+		} catch (Exception e) {
+			// TODO: handle exception
+			e.printStackTrace();
+		}
+		
 
 		
 	}

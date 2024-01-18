@@ -39,6 +39,10 @@ public class SaldoService {
 		repo.save(saldo);
 	}
 	
+	public void saveAll(List<Saldo> saldos) {
+		repo.saveAll(saldos);
+	}
+	
 	public void delete(Saldo saldo) {
 		repo.delete(saldo);
 	}
