@@ -53,6 +53,7 @@ public class TransaksiUtils {
 	}
 	
 	public void saldoRecalculateAdvanced() {
+		Date start = new Date();
 		
 		int tahunAwal = 2023;
 		
@@ -93,8 +94,9 @@ public class TransaksiUtils {
 			e.printStackTrace();
 		}
 		
-
-		
+		Date end = new Date();
+		Long timeProcessing = end.getTime() - start.getTime();
+		System.out.println("Done in "+timeProcessing+" ms");
 	}
 	
 	
