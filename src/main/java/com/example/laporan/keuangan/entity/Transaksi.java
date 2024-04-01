@@ -55,7 +55,7 @@ import lombok.NoArgsConstructor;
 				+ "left join \r\n"
 				+ "	budget b \r\n"
 				+ "on t.id_budget = b.id_budget \r\n"
-				+ "order by t.creation_date desc \r\n",
+				+ "order by t.id_transaksi desc \r\n",
 		resultSetMapping = "transaksiWrapperMapping",
 		resultClass = TransaksiWrapper.class
 )
@@ -106,7 +106,7 @@ import lombok.NoArgsConstructor;
 				+ "on t.id_budget = b.id_budget \r\n"
 				+ "where \r\n"
 				+ "	t.creation_date >= :start AND t.creation_date <= :end \r\n"
-				+ "order by t.creation_date desc",
+				+ "order by t.id_transaksi desc",
 		resultSetMapping = "transaksiWrapperMapping",
 		resultClass = TransaksiWrapper.class
 )

@@ -177,7 +177,7 @@ var transaksi = function() {
                 loadDatatable(response);
                 generateEditButton();
                 generateDeleteButton();
-                summaryDatatable(response);
+                //summaryDatatable(response);
             }
         })
     }
