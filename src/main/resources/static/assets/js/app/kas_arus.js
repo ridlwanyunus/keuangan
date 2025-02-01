@@ -13,8 +13,24 @@ var kasArus = function() {
     	$('#bulan').val(bulan);
 	    $('#tahun').val(tahun);
 	    
+	    tahunDropDown();
         loadData(bulan, tahun);
     }
+    
+    var tahunDropDown = function(){
+		var date = new Date();
+		var startYear = 2023;
+		var endYear = date.getFullYear();
+		
+		for(var i = startYear; i<=endYear; i++ ){
+			var o = new Option(i, i);
+			$(o).html(i);
+			$("#tahun").append(o);
+		}
+		
+		$("#tahun option[value="+endYear+"]").attr('selected','selected');
+		
+	}
     
     var buttonHandler = function(){
     	$('#search').on('click', function(){
