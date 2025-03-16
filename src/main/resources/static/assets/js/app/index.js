@@ -227,22 +227,33 @@ var index = function() {
     		contentType: 'application/json',
     		success: function(response){
     			console.log(response.data)
-    			initStatusKeuangan(response.data[0])
+    			initStatusKeuangan(response.data)
     			loadDatatable(response);
     		}
     	});
     }
     
-    var initStatusKeuangan = function(saldo){
-    	if(saldo.selisih >= 0){
+    var initStatusKeuangan = function(data){
+		var today = new Date()
+		var month = today.getMonth() + 1;
+		var year = today.getFullYear();
+		var index = 0;
+		
+		for(var i=0; i < data.length; i++){
+			if(data[i].bulan == month && data[i].tahun == year){
+				index = i;
+			}
+		}
+		
+    	if(data[index].selisih >= 0){
     	
-    		var html = `<span class="kt-widget12__value" style="display:inline; color:#0abb87">+`+Utils.currencyFormat(saldo.selisih)+`</span>
+    		var html = `<span class="kt-widget12__value" style="display:inline; color:#0abb87">+`+Utils.currencyFormat(data[index].selisih)+`</span>
 							  <span class="kt-badge kt-badge--inline kt-badge--success" style="margin-left: 5px;">surplus</span>
 							  `;
     		
     	} else 
-    	if(saldo.selisih < 0){
-    		var html = `<span class="kt-widget12__value" style="display:inline; color:#fd397a">`+Utils.currencyFormat(saldo.selisih)+`</span>
+    	if(data[index].selisih < 0){
+    		var html = `<span class="kt-widget12__value" style="display:inline; color:#fd397a">`+Utils.currencyFormat(data[index].selisih)+`</span>
 							  <span class="kt-badge kt-badge--inline kt-badge--danger" style="margin-left: 5px;">minus</span>
 							  `;
     	}

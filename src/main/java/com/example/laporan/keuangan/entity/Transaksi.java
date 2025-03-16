@@ -3,15 +3,15 @@ package com.example.laporan.keuangan.entity;
 import java.math.BigDecimal;
 import java.util.Date;
 
-import javax.persistence.ColumnResult;
-import javax.persistence.ConstructorResult;
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
-import javax.persistence.NamedNativeQuery;
-import javax.persistence.SqlResultSetMapping;
-import javax.persistence.Table;
+import jakarta.persistence.ColumnResult;
+import jakarta.persistence.ConstructorResult;
+import jakarta.persistence.Entity;
+import jakarta.persistence.GeneratedValue;
+import jakarta.persistence.GenerationType;
+import jakarta.persistence.Id;
+import jakarta.persistence.NamedNativeQuery;
+import jakarta.persistence.SqlResultSetMapping;
+import jakarta.persistence.Table;
 
 import com.example.laporan.keuangan.response.TransaksiWrapper;
 import com.fasterxml.jackson.annotation.JsonFormat;
